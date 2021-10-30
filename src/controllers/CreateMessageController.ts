@@ -11,7 +11,7 @@ class CreateMessageController {
     const service = new CreateMessageService();
     const result = await service.execute(message, user_id);
 
-    console.log("\t✔️ Message stored successfully, returning info...");
+    console.log("\t✔️ Message stored successfully, returning data");
     res.json(result);
   }
 }

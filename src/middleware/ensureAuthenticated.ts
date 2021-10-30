@@ -10,6 +10,8 @@ export function ensureAuthenticated(
   res: Response,
   next: NextFunction
 ) {
+  console.log("↪️ Authenticating user ...");
+
   const authToken = req.headers.authorization;
 
   const { JWT_SECRET } = process.env;
@@ -39,6 +41,7 @@ export function ensureAuthenticated(
 
     req.user_id = sub;
 
+    console.log("\t✔️ User authenticated successfully");
     return next();
   } catch {
     console.log("\t❌ Expired token");
