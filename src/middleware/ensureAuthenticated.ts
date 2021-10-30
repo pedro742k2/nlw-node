@@ -32,7 +32,6 @@ export function ensureAuthenticated(
     });
   }
 
-  // Token structure: Bearer 752br793282d3218473kw0rcejghubvtrw84
   const [, token] = authToken.split(" ");
 
   try {
