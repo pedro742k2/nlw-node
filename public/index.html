@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NLW Heat</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap");
+
+      * {
+        font-family: "Ubuntu", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding-bottom: 3rem;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+
+      #form {
+        background: rgba(0, 0, 0, 0.15);
+        padding: 0.25rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        height: 3rem;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+      }
+      #input {
+        border: none;
+        padding: 0 1rem;
+        flex-grow: 1;
+        border-radius: 2rem;
+        margin: 0.25rem;
+      }
+      #input:focus {
+        outline: none;
+      }
+      #form > button {
+        background-color: #333;
+        border: none;
+        padding: 0 1rem;
+        margin: 0.25rem;
+        border-radius: 3px;
+        outline: none;
+        color: #fff;
+      }
+
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      #messages > .message-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+
+        padding: 0.5rem 1rem;
+      }
+      #messages > .message-container:nth-child(odd) {
+        background: #efefef;
+      }
+      #messages > .message-container span {
+        font-size: 0.75rem;
+        opacity: 0.75;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <script
+      src="https://cdn.socket.io/4.3.2/socket.io.min.js"
+      integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const PORT = 4000;
+      const messages = document.querySelector("#messages");
+
+      try {
+        console.log(`Connecting to the local server on port ${PORT} ...`);
+
+        const socket = io(`http://localhost:${PORT}`);
+        console.log("✔️ Connected to the server");
+
+        socket.on("new_message", (data) => {
+          const messageEntry = document.createElement("p");
+          const createdEntry = document.createElement("span");
+          const messageContainer = document.createElement("div");
+          messageContainer.setAttribute("class", "message-container");
+
+          const dateOptions = {
+            hour: "numeric",
+            minute: "numeric",
+            seconds: "numeric",
+          };
+          const formatedDate = new Date(data.created_at).toLocaleDateString(
+            "pt-PT",
+            dateOptions
+          );
+
+          messageEntry.appendChild(document.createTextNode(data.text));
+          createdEntry.appendChild(document.createTextNode(formatedDate));
+
+          messageContainer.appendChild(messageEntry);
+          messageContainer.appendChild(createdEntry);
+
+          messages.appendChild(messageContainer);
+
+          console.log("✔️ Received message data:", data);
+        });
+      } catch {
+        console.error("❌ Connection to the server has failed");
+      }
+    </script>
+  </body>
+</html>
