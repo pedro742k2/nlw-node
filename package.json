@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "tsc && node src/server.js",
     "dev": "ts-node-dev --exit-child src/server.ts"
   },
   "dependencies": {
