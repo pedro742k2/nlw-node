@@ -4,8 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsc && node src/server.js",
-    "dev": "ts-node-dev --exit-child src/server.ts"
+    "dev": "ts-node-dev --exit-child src/server.ts",
+    "tsc": "tsc",
+    "postinstall": "tsc",
+    "start": "node src/server.js"
   },
   "dependencies": {
     "@prisma/client": "3.3.0",
